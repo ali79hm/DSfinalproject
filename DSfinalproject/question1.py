@@ -13,7 +13,7 @@ def run():
     menunumber="0"
     isloop =  True
     while isloop:
-        if menunumber=="1": ##add palate
+        if menunumber=="1": ##add plate
             clearConsole()
             temp = input("please enter a plate number : ")
             myqu1.mystack.push(temp)

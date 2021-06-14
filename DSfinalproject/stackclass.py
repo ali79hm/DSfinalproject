@@ -5,7 +5,10 @@ class stack:
     def __init__(self):
         self.topIndex = -1
         self.stackstorage = []
-        
+
+    def getstackdata(self):
+        return self.stackstorage
+    
     def push(self,element):
         if self.topIndex >=(self.maxSize-1):
             #print("stack is full")

@@ -23,10 +23,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DSfinalproject.py" />
+    <Compile Include="linkedlistclass.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="question1.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="runquestion1.py">
+    <Compile Include="question2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="question3.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="question4.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Queueclass.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="stackclass.py" />
