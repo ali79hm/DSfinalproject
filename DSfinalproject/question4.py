@@ -43,8 +43,8 @@ class jail:
         self.Corridor = Queue(40)
         self.yard = Queue(40)
         self.ThreadRun = True
-        self.startTime = time.time()
-        self.noPowerFlag = threading.Event()
+        self.startTime = -5
+        #self.noPowerFlag = threading.Event()
         for j in js:
             self.Corridor.Enqueue(j)
 
@@ -66,9 +66,9 @@ class jail:
 
     def MngCorridor(self):
         while(self.ThreadRun):
-            if self.noPowerFlag.is_set():
-                self.noPowerFlag.clear()
-                time.sleep(4)
+            #if self.noPowerFlag.is_set():
+            #    self.noPowerFlag.clear()
+            #    time.sleep(4)
             if self.Corridor.getCount()>0 and self.stairs.getCount()<8:
                 temp = self.Corridor.Dequeue()
                 self.stairs.Enqueue(temp)
@@ -76,12 +76,12 @@ class jail:
 
     def mngPower(self):
         while(self.ThreadRun):
-            time.sleep(20)
+            time.sleep(50)
             print("powerfail")
-            self.noPowerFlag.set()
+            #self.noPowerFlag.set()
             for i in range(0,self.stairs.getCount()):
                 tmp = self.stairs.Dequeue()
-                #print(str(tmp)+" back to Corridor")
+                print(str(tmp)+" back to Corridor")
                 self.Corridor.Enqueue(tmp)
 
 
@@ -95,15 +95,16 @@ class jail:
     def printlocation(self):
         while(self.ThreadRun):
             clearConsole()
-            print(str((time.time() - self.startTime))+" second is passed")
-            print("\n========================================")
+            self.startTime = self.startTime+5
+            print(str(self.startTime)+" second is passed")
+            print("\n================================================================================")
             print("Corridor: "+str(self.Corridor.getQueuedata()))
-            print("---------------------------------------")
+            print("------------------------------------------------------------------------------")
             print("stairs: "+str(self.stairs.getQueuedata()))
-            print("---------------------------------------")
+            print("------------------------------------------------------------------------------")
             print("resturant: "+str(self.resturant.getQueuedata()))
-            print("---------------------------------------")
+            print("------------------------------------------------------------------------------")
             print("yard: "+str(self.yard.getQueuedata()))
-            print("========================================")
+            print("================================================================================")
             time.sleep(5)
             
