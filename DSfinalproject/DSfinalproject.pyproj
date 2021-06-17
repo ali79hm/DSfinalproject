@@ -41,7 +41,13 @@
     <Compile Include="Queueclass.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="QueueclasswithLL.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="stackclass.py" />
+    <Compile Include="stackclasswithLL.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">

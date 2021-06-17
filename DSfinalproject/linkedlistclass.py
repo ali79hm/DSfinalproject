@@ -17,26 +17,39 @@ class LinkedList:
         '''  return all Nodes as a list '''
         getval = self.headnode
         mylist = []
-        while printval is not None:
+        while getval is not None and getval.data!= None:
             mylist.append(getval.data)
             getval = getval.next
         return mylist
+
+    def getNode(self,index = -1):
+        currentIndex = 0
+        currentNode = self.headnode
+        if index == -1:
+            while (currentNode.next != None):
+                currentNode = currentNode.next
+                currentIndex = currentIndex+1
+        else:
+            while (currentNode.next != None and currentIndex<index):
+                currentNode = currentNode.next
+                currentIndex = currentIndex+1
+        return currentNode
 
     def IsEmpty(self):
         ''' return true if list is empty '''
         return self.headnode.data == None
 
-    def InsertNode(self,data,index=None):
+    def InsertNode(self,data,index=-1):
         ''' usage : InsertNode(data(string),index(int))
-            if index doesnt pass to function data will add to first
-            for adding to end : index = -1
+            if index doesnt pass to function data will add to end
+            for adding to first : index = 0
         '''
         currentIndex = 0
         currentNode = self.headnode
         newnode = Node(data)
         if self.headnode.data == None:
             self.headnode.data = data
-        elif index == None or index==0: # add at first
+        elif index==0: # add at first
             newnode.next = self.headnode
             self.headnode = newnode
         elif index == -1:               # add to end
@@ -52,7 +65,6 @@ class LinkedList:
             newnode.next = currentNode.next
             currentNode.next = newnode
 
-
     def DeleteNode(self,data):
         currentNode = self.headnode
         previousNode = None
@@ -61,10 +73,48 @@ class LinkedList:
             currentNode = currentNode.next
         if currentNode != None:
             if previousNode == None:
-                self.headnode = currentNode.next
+                if currentNode.next==None:
+                    self.headnode = Node()
+                else:
+                    self.headnode = currentNode.next
                 currentNode = None
             else:
                 previousNode.next = currentNode.next
                 currentNode = None
+
+    def DeleteNodewithindex(self,index = -1):
+        currentIndex = 0
+        currentNode = self.headnode
+        previousNode = None
+        if currentNode.next == None and index==-1:
+            index = 0
+
+        if self.headnode.data == None:
+            return -1
+        elif index == -1:
+            while (currentNode.next != None):
+                previousNode = currentNode
+                currentNode = currentNode.next;
+            previousNode.next = None
+            currentNode = None
+
+        elif index == 0:
+            if currentNode.next==None:
+                self.headnode = Node()
+            else:
+                self.headnode = currentNode.next
+            currentNode = None
+        else:
+            while (currentNode.next != None and currentIndex<index):
+                previousNode = currentNode
+                currentNode = currentNode.next
+                currentIndex = currentIndex+1
+            if currentIndex<index:
+                pass
+            else:
+                previousNode.next = currentNode.next
+                currentNode = None
+
+
 
 

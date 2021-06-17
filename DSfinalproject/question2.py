@@ -1,69 +1,175 @@
 from question1 import clearConsole
+from stackclass import stack
+from stackclasswithLL import stack  as LLstack
 
-def run():
+isStackWithLL= False
+def run(isstackWithLL):
+    global isStackWithLL
+    isStackWithLL = isstackWithLL
     clearConsole()
     #temp = input("enter your algebraic expression")
     #findallChars()
-    print("enter algebra equation: ")
+    print("select project part".center(100,"~"))
+    print("\n")
+    print("enter algebra equation:".center(100," "))
+    eq = input("".center(40," "))
     #eq = input(">> ")
     #eq = "2+3*4*5+2"
-    eq = "2*5+4*5+6+8*5"
-    manageOlaviat(eq)
+    #eq = "2*5+4*5+6+8*5" ##del
+    #eq="2+2*3"
+    #print(eq)
+    eqPasvandi = mianvandiToPasvandi(eq)
+    eqParantesi = pasvandiToparantes(eqPasvandi)
+    print("↓ parantez form ↓".center(100," "))
+    print(str(eqParantesi).center(100," "))
+    #parantesToPasvandi(eqParantesi)
+    try:
+        ans1 = calparantez(eqParantesi)
+        ans2 = calcPasvandi(eqPasvandi)
+    except:
+        ans1 = None
+        ans2 = None
+    if ans1==ans2 : 
+        print("True".center(100," "))
+    if ans1 == None or ans2 == None:
+        print("cant calculate answer to check corrcty of operation".center(100," "))
+
+    #print(mianvandiToPasvandi(eq))
+    #print(pasvandiToparantes(mianvandiToPasvandi(eq)))
     #addpr("","")
-    input("press enter to continue ...")
+    print("press enter to continue ...".center(100," "))
+    input("".center(50," "))
 
-def manageOlaviat(eq):
-    eq = addpr(eq,"*")
-    eq = addpr(eq,"+")
-def addpr(eq,char):
-    loop = True
-    while(loop):
-        i=-1
-        while(i<len(eq)):
-            i = i+1
-            if eq[i] == "(":
-                for j in range(len(eq)-1,i,-1):
-                    if(eq[j] == ")"):
-                        i=j
-                        break
-            if(eq[i]==char):
-                bfIndex = i
-                afIndex = i
-                j=i
-                while(j<len(eq)):
-                    j = j+1
-                    if eq[j] == "(":
-                        for h in range(len(eq)-1,j,-1):
-                            if eq[h] == ")":
-                                j = h
-                                break
-                    if j+1 >= len(eq): ##
-                        afIndex = len(eq) ##
-                        break ##
-                    if eq[j] == "+" or eq[j] == "-" or eq[j] == "/" or eq[j] == "*":
-                        afIndex = j
-                        break
-                j=i
-                while j>0:
-                    j= j-1
+
+def calcPasvandi(eq):
+    global isStackWithLL
+    funcs = [["/","*"],["+","-"]]
+    if isStackWithLL==False:
+        mystack = stack()
+    else:
+        mystack = LLstack()
+    neweq = ""
+    reset =True
+    for i,char in enumerate(eq):
+        if char == funcs[0][1] or char == funcs[0][0] or char == funcs[1][1] or char == funcs[1][0] :
+            num2 = float(mystack.pop())
+            num1 = float(mystack.pop())
+            ans = cal(char,num1,num2)
+            mystack.push(str(ans))
+        else:
+            if reset == True:
+                mystack.push(char)
+                reset = False
+            else:
+                if eq[i]==" ":
+                    reset = True
+                else:
+                    temp2 = mystack.pop()
+                    temp2 = temp2 + str(char)
+                    mystack.push(temp2)
+    while mystack.topIndex>-1:
+        neweq = mystack.pop() + neweq
+    return neweq
+def calparantez(eq):
+    #eq = "((((6/3)+12)-((16/12)*9))+25)"
+    while eq.find("(") != -1:
+        funcs = [["/","*"],["+","-"]]
+        func=0
+        befpar = 0
+        aftpar = len(eq)-1
+        for i in range(len(eq)-1,-1,-1):
+            if eq[i]=="(":
+                befpar = i
+                for j in range(i,len(eq)):
                     if eq[j] == ")":
-                        for h in range(0,j):
-                            if eq[h] == "(":
-                                j = h
-                                break
-                    if j-1 < 0: ##
-                        bfIndex = -1##
-                        break ##
-                    if eq[j] == "+" or eq[j] == "-" or eq[j] == "/" or eq[j] == "*":
-                        bfIndex = j
+                        aftpar = j
                         break
-
-                
-                eq = eq[0:bfIndex+1] + "(" + eq[bfIndex+1:afIndex]+")"+eq[afIndex:len(eq)]
                 break
-            elif(i == len(eq)-1):
-                loop = False
+        for i in range(befpar+1,aftpar):
+            if eq[i] == funcs[0][1] or eq[i] == funcs[0][0] or eq[i] == funcs[1][1] or eq[i] == funcs[1][0] :
+                char = i
                 break
-        print(eq)
+        ans = cal(eq[char],eq[befpar+1:char],eq[char+1:aftpar])
+    
+        eq = eq[0:befpar]+ str(ans) + eq[aftpar+1:]
     return eq
+            #myeq = char+eq[befpar+1:i]+" "+eq[i+1:aftpar]+" "
+           
+            #eq = eq[0:befpar]+myeq + eq[aftpar+1:]
+            #print()
 
+def cal(func,num1,num2):
+    if func=="*":
+        ans = float(num1)*float(num2)
+    elif func=="/":
+        ans = float(num1)/float(num2)
+    elif func=="-":
+        ans = float(num1)-float(num2)
+    else :
+        ans = float(num1)+float(num2)
+    return ans
+
+def pasvandiToparantes(eq):
+    global isStackWithLL
+    funcs = [["/","*"],["+","-"]]
+    if isStackWithLL==False:
+        mystack = stack()
+    else:
+        mystack = LLstack()
+    neweq = ""
+    reset =True
+    for i,char in enumerate(eq):
+        if char == funcs[0][1] or char == funcs[0][0] or char == funcs[1][1] or char == funcs[1][0] :
+            temp = mystack.pop() + ")"
+            temp = char + temp
+            temp = "(" + mystack.pop() + temp
+            mystack.push(temp)
+        else:
+            if reset == True:
+                mystack.push(char)
+                reset = False
+            else:
+                if eq[i]==" ":
+                    reset = True
+                else:
+                    temp2 = mystack.pop()
+                    temp2 = temp2 + str(char)
+                    mystack.push(temp2)
+                
+
+            
+
+    while mystack.topIndex>-1:
+        neweq = mystack.pop() + neweq
+    return neweq
+def mianvandiToPasvandi(eq):
+    global isStackWithLL
+    funcs = [["/","*"],["+","-"]]
+    #eq = "2*5+4*5+6+8*5" ###del
+    if isStackWithLL==False:
+        mystack = stack()
+    else:
+        mystack = LLstack()
+    neweq = ""
+    for i,char in enumerate(eq):
+        if char == funcs[0][1] or char == funcs[0][0]: # '*' , '/'
+            beforefunc = mystack.peek()
+            if beforefunc == False:
+                mystack.push(char)
+            elif beforefunc == funcs[1][1] or beforefunc == funcs[1][0]:
+                mystack.push(char)
+            else:
+                while mystack.topIndex > -1 and (mystack.peek()==funcs[0][1] or mystack.peek()==funcs[0][0]):
+                    neweq = neweq + str(mystack.pop())
+                mystack.push(char)
+        elif char == funcs[1][1] or char == funcs[1][0]:
+             while mystack.topIndex > -1 :
+                 neweq = neweq + str(mystack.pop())
+             mystack.push(char)
+        else:
+            neweq = neweq + char
+            if (i+1<len(eq) and ( eq[i+1]== funcs[0][1] or eq[i+1]== funcs[0][0] or eq[i+1]== funcs[1][1] or eq[i+1]== funcs[1][0])) or i+1==len(eq):
+                neweq = neweq + " "
+    while(mystack.topIndex!=-1):
+        neweq = neweq + str(mystack.pop())
+    return neweq

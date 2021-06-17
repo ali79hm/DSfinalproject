@@ -17,7 +17,7 @@ class Queue:
             self.rear = self.rear+1
             self.Queuedata.append(data)
         else:
-            print("Queue Overflow")
+            #print("Queue Overflow")
             print()
 
     def Dequeue(self):
@@ -25,6 +25,6 @@ class Queue:
             self.rear = self.rear-1
             return self.Queuedata.pop(0)
         else:
-            print("Queue is Empty")
+            #print("Queue is Empty")
             return -1
             

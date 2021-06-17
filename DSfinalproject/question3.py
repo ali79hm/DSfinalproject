@@ -1,20 +1,32 @@
 from random import randint,choice
 from stackclass import stack
 from question1 import clearConsole
+from stackclasswithLL import stack  as LLstack
+
 
 line1 = None
 line2 = None
 line3 = None
 
-def run():
+def run(isStackWithLL):
     global line1,line2,line3
-    line1 = stack()
-    line2 = stack()
-    line3 = stack()
+    if isStackWithLL==False:
+        line1 = stack()
+        line2 = stack()
+        line3 = stack()
+    else:
+        line1 = LLstack()
+        line2 = LLstack()
+        line3 = LLstack()
     initializelines()
     while(not checkwin()):
-        
-        print("for moving numbers use this commend:\n A B\nthis will move line A to line B\n(for exit type \"exit\")")
+        print(" color rings game ".center(100,"~"))
+        print("\n")
+        print("for moving numbers use this commend:".center(100," "))
+        print("A B".center(100," "))
+        print("this will move line A to line B".center(100," "))
+        print("(for exit type \"exit\")".center(100," "))
+        #print("\n \n\n")
         printlines()
     
         cmd = input(">> ")
@@ -27,12 +39,13 @@ def run():
 
     printlines()
     print("\n")
-    print("".center(30,"~"))
-    print("       ".center(30,"~"))
-    print(" you win ".center(30,"~"))
-    print("       ".center(30,"~"))
-    print("".center(30,"~"))
-    input("press enter to continue ...")
+    print("".center(100,"~"))
+    print("       ".center(100,"~"))
+    print(" you win ".center(100,"~"))
+    print("       ".center(100,"~"))
+    print("".center(100,"~"))
+    print("press enter to continue ...".center(100," "))
+    input("".center(50," "))
     
     
 
@@ -72,12 +85,12 @@ def initializelines():
     for x in numbers:
         line3.push(x)
 def printlines():
-    spaces = 30
+    spaces = 100
     global line1,line2,line3
     data1 = line1.getstackdata()
     data2 = line2.getstackdata()
     data3 = line3.getstackdata()
-    print("color circle".center(spaces,"#"))
+    print("".center(spaces,"#"))
     maxsize =max([line1.topIndex,line2.topIndex,line3.topIndex])
     for i in range(maxsize,-1,-1):
         mystr = ""
