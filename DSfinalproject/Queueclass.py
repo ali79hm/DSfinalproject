@@ -1,3 +1,5 @@
+
+
 class Queue:
     
     def __init__(self,size):
@@ -7,12 +9,17 @@ class Queue:
         self.max = size
 
     def getQueuedata(self):
+        '''  return queue as list '''
         return self.Queuedata
 
     def getCount(self):
+        '''  return count of list '''
         return len(self.Queuedata)
 
     def Enqueue(self,data):
+        '''  add data to queue 
+             Enqueue(data)
+        '''
         if self.rear != self.max:
             self.rear = self.rear+1
             self.Queuedata.append(data)
@@ -21,6 +28,9 @@ class Queue:
             print()
 
     def Dequeue(self):
+        '''  remove data from queue 
+             Enqueue(data)
+        '''
         if self.rear != self.front:
             self.rear = self.rear-1
             return self.Queuedata.pop(0)

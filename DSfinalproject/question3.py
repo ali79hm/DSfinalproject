@@ -1,6 +1,6 @@
 from random import randint,choice
 from stackclass import stack
-from question1 import clearConsole
+from question1 import clearConsole,bcolors
 from stackclasswithLL import stack  as LLstack
 
 
@@ -10,26 +10,26 @@ line3 = None
 
 def run(isStackWithLL):
     global line1,line2,line3
-    if isStackWithLL==False:
+    if isStackWithLL==False: ##Implementation with linked list stack
         line1 = stack()
         line2 = stack()
         line3 = stack()
-    else:
+    else:                   ##Implementation with array stack
         line1 = LLstack()
         line2 = LLstack()
         line3 = LLstack()
     initializelines()
-    while(not checkwin()):
-        print(" color rings game ".center(100,"~"))
+    while(not checkwin()): ##loop untin win
+        print((bcolors.RED + " color rings game " + bcolors.ENDC).center(110,"~"))
+        #print(" color rings game ".center(100,"~"))
         print("\n")
         print("for moving numbers use this commend:".center(100," "))
         print("A B".center(100," "))
         print("this will move line A to line B".center(100," "))
-        print("(for exit type \"exit\")".center(100," "))
-        #print("\n \n\n")
+        print((bcolors.UNDERLINE + "(for exit type exit)" + bcolors.ENDC).center(105," "))
         printlines()
     
-        cmd = input(">> ")
+        cmd = input(">> ") ## game controller input
         if(cmd == "exit"):
             return 0
         cmd = cmd.split()
@@ -37,37 +37,35 @@ def run(isStackWithLL):
             manage(cmd)
         clearConsole()
 
-    printlines()
+    printlines() 
     print("\n")
     print("".center(100,"~"))
     print("       ".center(100,"~"))
-    print(" you win ".center(100,"~"))
+    print((bcolors.RED + " you win " + bcolors.ENDC).center(110,"~"))
     print("       ".center(100,"~"))
     print("".center(100,"~"))
     print("press enter to continue ...".center(100," "))
     input("".center(50," "))
-    
-    
 
-
-def checkwin():
+def checkwin(): ##check if playes won or not (return True if player wins)
     global line1,line2,line3
-    flag1 = 0
-    flag2 = 0
-    flag3 = 0
-    data1 = line1.getstackdata()
+    flag1 = 0 #show if line1 is sorted
+    flag2 = 0 #show if line2 is sorted
+    flag3 = 0 #show if line3 is sorted
+    data1 = line1.getstackdata() 
     data2 = line2.getstackdata()
     data3 = line3.getstackdata()
-    if(data1 == sorted(data1) or data1 == sorted(data1,reverse = True)):
+    if(data1 == sorted(data1) or data1 == sorted(data1,reverse = True)): #check if line1 is sorted
         flag1 = 1
-    if(data2 == sorted(data2) or data2 == sorted(data2,reverse = True)):
+    if(data2 == sorted(data2) or data2 == sorted(data2,reverse = True)): #check if line2 is sorted
         flag2 = 1
-    if(data3 == sorted(data3) or data3 == sorted(data3,reverse = True)):
+    if(data3 == sorted(data3) or data3 == sorted(data3,reverse = True)): #check if line3 is sorted
         flag3 = 1
-    if(flag1 and flag2 and flag3):
+    if(flag1 and flag2 and flag3): # if all lines sorted return True
         return True
     return False
-def initializelines():
+
+def initializelines(): ##divide 1 to 15 in 3 line randomly
     numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
     global line1,line2,line3
     l1Size = randint(0,15)
@@ -84,13 +82,14 @@ def initializelines():
         line2.push(temp)
     for x in numbers:
         line3.push(x)
-def printlines():
-    spaces = 100
+
+def printlines(): ##print lines data
+    spaces = 100 # for centerize texts
     global line1,line2,line3
     data1 = line1.getstackdata()
     data2 = line2.getstackdata()
     data3 = line3.getstackdata()
-    print("".center(spaces,"#"))
+    print((bcolors.RED + "#" + bcolors.ENDC)*100)
     maxsize =max([line1.topIndex,line2.topIndex,line3.topIndex])
     for i in range(maxsize,-1,-1):
         mystr = ""
@@ -118,10 +117,11 @@ def printlines():
         except:
             mystr = mystr + "  "
         print(mystr.center(spaces))
-    print("||  ||  ||".center(spaces))
+    print((bcolors.BLUE + "||  ||  ||"+ bcolors.ENDC).center(spaces+10))
     print("01  02  03".center(spaces))
-    print("".center(spaces,"#"))
-def manage(cmd):
+    print((bcolors.RED + "#" + bcolors.ENDC)*100)
+
+def manage(cmd): ##manage input commends like: "A B"
     global line1,line2,line3
     temp = ""
     if  not(int(cmd[1])>3 or  int(cmd[1])<1):

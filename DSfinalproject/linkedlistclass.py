@@ -5,9 +5,9 @@ class Node:
 
 class LinkedList:
     def __init__(self):
-        #self.headval = None
         self.headnode = Node()
     def DisplayList(self):
+        '''  print all nodes '''
         printval = self.headnode
         while printval is not None:
             print (printval.data)
@@ -23,6 +23,7 @@ class LinkedList:
         return mylist
 
     def getNode(self,index = -1):
+        '''  retun node with giving index '''
         currentIndex = 0
         currentNode = self.headnode
         if index == -1:
@@ -66,6 +67,7 @@ class LinkedList:
             currentNode.next = newnode
 
     def DeleteNode(self,data):
+        '''  delete node with given data '''
         currentNode = self.headnode
         previousNode = None
         while not(currentNode == None or currentNode.data ==  data):
@@ -83,6 +85,7 @@ class LinkedList:
                 currentNode = None
 
     def DeleteNodewithindex(self,index = -1):
+        '''  delete node with given index '''
         currentIndex = 0
         currentNode = self.headnode
         previousNode = None
